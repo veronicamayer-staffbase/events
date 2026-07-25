@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#FAFAFC;font-family:Inter,sans-serif}
+  a{color:#FF6840;text-decoration:none}
+</style>
+</helmet>
+
+<div style="max-width:1280px;margin:0 auto;padding:24px 32px 100px">
+
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:28px">
+    <div>
+      <div style="font:700 13px Inter,sans-serif;color:#FF6840;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px">Event Hub</div>
+      <h1 style="font:800 32px Inter,sans-serif;color:#000000;margin:0">All company events</h1>
+    </div>
+    <div style="display:flex;gap:6px;background:#FFEDE6;border-radius:12px;padding:4px">
+      <button style="{{ gridBtnStyle }}" onClick="{{ setGrid }}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>
+        Grid
+      </button>
+      <button style="{{ listBtnStyle }}" onClick="{{ setList }}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        List
+      </button>
+    </div>
+  </div>
+
+  <div style="{{ containerStyle }}">
+    <sc-for list="{{ events }}" as="ev" hint-placeholder-count="8">
+      <dc-import name="EventCard" variant="{{ variant }}" title="{{ ev.title }}" event-id="{{ ev.id }}" date-label="{{ ev.dateLabel }}" location-type="{{ ev.locationType }}" location-text="{{ ev.locationText }}" online-label="{{ ev.onlineLabel }}" thumbnail="{{ ev.thumbnail }}" rsvp-style="{{ ev.rsvpStyle }}" show-attendees="{{ ev.showAttendees }}" attendee-count="{{ ev.attendeeCount }}" on-open="{{ ev.onOpen }}" hint-size="100%,{{ cardHeight }}"></dc-import>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { view: 'vertical' };
+
+  eventsData = [
+    { title: 'All-Hands: Q3 Product Roadmap', id: 'all-hands-q3', dateLabel: 'Thu, Aug 14 · 10:00 AM', locationType: 'in-person', locationText: 'London Office, 4th Floor', attendeeCount: 128, showAttendees: false, thumbnail: 'uploads/product all hands-156d430b.avif', href: 'Event Details.dc.html' },
+    { title: 'Product Launch: Connected Kitchen Collection', id: 'connected-kitchen-launch', dateLabel: 'Fri, Aug 22 · 5:30 PM', locationType: 'in-person', locationText: 'London Office Rooftop', attendeeCount: 33, thumbnail: 'uploads/kitchen.avif', href: 'Event Details - Rooftop Social.dc.html' },
+    { title: 'Design Systems Guild: Tokens 101', id: 'design-tokens-guild', dateLabel: 'Wed, Aug 27 · 1:00 PM', locationType: 'online', onlineLabel: 'Join via Zoom', attendeeCount: 31, thumbnail: 'uploads/design tokens.webp' },
+    { title: 'Innovation Challenge: Cross-Team Hackathon', id: 'innovation-hackathon', dateLabel: 'Thu, Aug 28 · 6:00 PM', locationType: 'in-person', locationText: 'Innovation Lab, London Office', attendeeCount: 40, rsvpStyle: 'full', thumbnail: 'uploads/iT.avif' },
+    { title: 'New Hire Orientation — August Cohort', id: 'new-hire-orientation', dateLabel: 'Mon, Sep 1 · 9:00 AM', locationType: 'hybrid', locationText: 'Berlin HQ, Room 2A', onlineLabel: 'Join via Teams', attendeeCount: 19, thumbnail: 'uploads/team directory.avif' },
+    { title: 'Quarterly Business Review & Town Hall', id: 'q3-town-hall', dateLabel: 'Fri, Sep 5 · 5:00 PM', locationType: 'in-person', locationText: 'London Office, Main Auditorium', attendeeCount: 87, thumbnail: 'uploads/meeting room booking.avif' },
+    { title: 'Sustainability Week Kickoff', id: 'sustainability-week-kickoff', dateLabel: 'Fri, Sep 12 · 9:00 AM', locationType: 'in-person', locationText: 'London Office, Atrium', attendeeCount: 22, thumbnail: 'uploads/erg.avif' },
+    { title: 'Lunch & Learn: Sustainable Manufacturing Trends', id: 'lunch-learn-sustainability', dateLabel: 'Tue, Sep 16 · 12:30 PM', locationType: 'online', onlineLabel: 'Join via Zoom', attendeeCount: 14, thumbnail: 'uploads/my workplace.avif' },
+  ];
+
+  renderVals() {
+    const view = this.state.view;
+    const btn = (active) => ({
+      display: 'flex', alignItems: 'center', gap: '6px', font: active ? '700 13px Inter,sans-serif' : '600 13px Inter,sans-serif',
+      color: active ? '#FF6840' : '#4D4D4D', background: active ? '#fff' : 'transparent', border: 'none',
+      borderRadius: '9px', padding: '8px 14px', cursor: 'pointer', boxShadow: active ? '0 1px 3px rgba(0,0,0,0.12)' : 'none',
+    });
+    return {
+      variant: view === 'vertical' ? 'compact' : 'horizontal',
+      cardHeight: view === 'vertical' ? '210px' : '116px',
+      containerStyle: view === 'vertical'
+        ? { display: 'grid', gridTemplateColumns: 'repeat(3,minmax(0,1fr))', gap: '20px' }
+        : { display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '760px' },
+      events: this.eventsData.map(ev => ({ ...ev, rsvpStyle: ev.rsvpStyle || 'dropdown', showAttendees: ev.showAttendees !== false, onOpen: ev.href ? (() => { window.location.href = ev.href; }) : undefined })),
+      gridBtnStyle: btn(view === 'vertical'),
+      listBtnStyle: btn(view === 'horizontal'),
+      setGrid: () => this.setState({ view: 'vertical' }),
+      setList: () => this.setState({ view: 'horizontal' }),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

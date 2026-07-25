@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#FAFAFC}
+  .ec-stripes{background-image:repeating-linear-gradient(135deg,#FFEDE6 0px,#FFEDE6 10px,#FFF4EE 10px,#FFF4EE 20px)}
+</style>
+</helmet>
+
+<div style="{{ rootStyle }}" onClick="{{ onOpen }}">
+  <div class="ec-stripes" style="{{ thumbStyle }}">
+    <sc-if value="{{ thumbnail }}"><img src="{{ thumbnail }}" alt="{{ title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></sc-if>
+    <sc-if value="{{ showPhotoLabel }}"><span style="position:absolute;bottom:8px;right:10px;font:500 10px/1 'IBM Plex Mono',monospace;color:#A8877A">event photo</span></sc-if>
+  </div>
+
+  <div style="{{ bodyStyle }}">
+    <sc-if value="{{ isCompact }}">
+      <div style="display:flex;align-items:flex-start;gap:10px">
+        <div class="ec-stripes" style="{{ compactThumbStyle }}">
+          <sc-if value="{{ thumbnail }}"><img src="{{ thumbnail }}" alt="{{ title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></sc-if>
+        </div>
+        <div style="flex:1;min-width:0;font:700 15px/1.3 Inter,sans-serif;color:#000000;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ title }}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:5px;font:600 12.5px/1 Inter,sans-serif;color:#FF6840">
+        <sc-if value="{{ isOnline }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF6840" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 4 6 4 9s-1.5 6.3-4 9c-2.5-2.7-4-6-4-9s1.5-6.3 4-9z"/></svg></sc-if>
+        <sc-if value="{{ isInPerson }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF6840" stroke-width="2"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0119 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg></sc-if>
+        <sc-if value="{{ isHybrid }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF6840" stroke-width="2"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0119 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg></sc-if>
+        <span>{{ locationTypeLabel }}</span>
+        <span style="color:#4D4D4D;font-weight:500">· {{ locationShort }}</span>
+      </div>
+      <div style="font:500 13px/1.5 Inter,sans-serif;color:#4D4D4D">{{ dateLabel }}</div>
+    </sc-if>
+    <sc-if value="{{ notCompact }}">
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:{{ metaGap }}">
+      <div style="font:700 17px/1.3 Inter,sans-serif;color:#000000;{{ titleClampStyle }}">{{ title }}</div>
+      <div style="display:flex;align-items:center;gap:5px;font:600 12px/1 Inter,sans-serif;color:#FF6840">
+        <sc-if value="{{ isOnline }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF6840" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 4 6 4 9s-1.5 6.3-4 9c-2.5-2.7-4-6-4-9s1.5-6.3 4-9z"/></svg></sc-if>
+        <sc-if value="{{ isInPerson }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF6840" stroke-width="2"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0119 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg></sc-if>
+        <sc-if value="{{ isHybrid }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FF6840" stroke-width="2"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0119 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg></sc-if>
+        <span>{{ locationTypeLabel }}</span>
+      </div>
+      <div style="{{ metaRowStyle }}">
+        <div style="display:flex;align-items:center;gap:6px;font:500 13px/1.3 Inter,sans-serif;color:#4D4D4D;white-space:nowrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#767676" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          <span>{{ dateLabel }}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;font:500 13px/1.3 Inter,sans-serif;color:#4D4D4D;min-width:0">
+          <sc-if value="{{ isOnline }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#767676" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 4 6 4 9s-1.5 6.3-4 9c-2.5-2.7-4-6-4-9s1.5-6.3 4-9z"/></svg></sc-if>
+          <sc-if value="{{ showPin }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#767676" stroke-width="2" style="flex-shrink:0"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0119 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg></sc-if>
+          <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ locationSummary }}</span>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <div style="{{ footerStyle }}">
+      <div style="{{ avatarRowStyle }}">
+        <div style="display:flex"><div style="{{ avatarStyle1 }}">JM</div><div style="{{ avatarStyle2 }}">KP</div><div style="{{ avatarStyle3 }}">+{{ attendeeOverflow }}</div></div>
+        <span style="font:500 12px/1 Inter,sans-serif;color:#767676;white-space:nowrap">{{ attendeeCount }} going</span>
+      </div>
+
+      <sc-if value="{{ showRsvpButton }}">
+        <button style="{{ rsvpButtonStyle }}" onClick="{{ handleRsvpClick }}">RSVP</button>
+      </sc-if>
+      <sc-if value="{{ showButtonSwapStatus }}">
+        <button style="{{ statusChipStyle }}" onClick="{{ handleRsvpClick }}">
+          <sc-if value="{{ rsvpIsYes }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12l5 6L20 6"/></svg></sc-if>
+          <span>{{ statusLabel }}</span>
+        </button>
+      </sc-if>
+      <sc-if value="{{ showDualStatusChip }}">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="{{ dualStatusBadgeStyle }}">{{ statusLabel }}</span>
+          <button style="{{ rsvpOutlineButtonStyle }}" onClick="{{ handleRsvpClick }}">Change</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ showFullBadge }}">
+        <span style="{{ fullBadgeStyle }}">Fully Booked</span>
+      </sc-if>
+      <sc-if value="{{ showDropdown }}">
+        <div style="{{ menuWrapStyle }}">
+          <button style="{{ dropdownButtonStyle }}" onClick="{{ handleDropdownToggle }}">
+            <span>{{ dropdownLabel }}</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <sc-if value="{{ menuOpen }}">
+            <div style="{{ menuStyle }}" onClick="{{ stopClick }}">
+              <sc-for list="{{ menuItems }}" as="opt" hint-placeholder-count="3">
+                <button style="{{ opt.style }}" onClick="{{ opt.onClick }}">{{ opt.label }}</button>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:320,&quot;height&quot;:360},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;vertical&quot;,&quot;horizontal&quot;,&quot;carousel&quot;,&quot;compact&quot;],&quot;default&quot;:&quot;vertical&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;All-Hands: Q3 Product Roadmap&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;eventId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;all-hands-q3&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;dateLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Thu, Aug 14 · 10:00 AM&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;locationType&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;in-person&quot;,&quot;online&quot;,&quot;hybrid&quot;],&quot;default&quot;:&quot;in-person&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;locationText&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;London Office, 4th Floor&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;onlineLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Join via Zoom&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;rsvpState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;none&quot;,&quot;yes&quot;,&quot;maybe&quot;,&quot;no&quot;],&quot;default&quot;:&quot;none&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;rsvpStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;button-swap&quot;,&quot;status-chip&quot;,&quot;dropdown&quot;,&quot;full&quot;],&quot;default&quot;:&quot;button-swap&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;attendeeCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:42,&quot;tsType&quot;:&quot;number&quot;},&quot;showAttendees&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;thumbnail&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;onRsvpClick&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(choice?: string) =&gt; void&quot;},&quot;onOpen&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
+class Component extends DCLogic {
+  state = { open: false, localRsvp: null };
+
+  storageKey() { return this.props.eventId ? `rsvp:${this.props.eventId}` : null; }
+
+  componentDidMount() {
+    const key = this.storageKey();
+    if (key) {
+      const stored = localStorage.getItem(key);
+      if (stored) this.setState({ localRsvp: stored });
+      this._onStorage = (e) => { if (e.key === key) this.setState({ localRsvp: e.newValue || null }); };
+      window.addEventListener('storage', this._onStorage);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this._onStorage) window.removeEventListener('storage', this._onStorage);
+  }
+
+  setRsvp(choice) {
+    const key = this.storageKey();
+    if (key) localStorage.setItem(key, choice);
+    this.setState({ localRsvp: choice, open: false });
+  }
+
+  renderVals() {
+    const p = this.props;
+    const variant = p.variant || 'vertical';
+    const locationType = p.locationType || 'in-person';
+    const rsvpStyle = p.rsvpStyle || 'button-swap';
+    const rsvpState = rsvpStyle === 'dropdown' ? (this.state.localRsvp || p.rsvpState || 'none') : (p.rsvpState || 'none');
+    const isHorizontal = variant === 'horizontal';
+    const isCarousel = variant === 'carousel';
+    const isCompact = variant === 'compact' || variant === 'carousel';
+
+    const ink = '#000000', sub = '#4D4D4D', border = '#E6E2DC', purple = '#FF6840', purpleDark = '#C4471F', lavender = '#FFEDE6';
+
+    const rootStyle = {
+      display: 'flex',
+      flexDirection: isHorizontal ? 'row' : 'column',
+      background: '#fff',
+      border: `1px solid ${border}`,
+      borderRadius: isHorizontal ? '14px' : '16px',
+      cursor: 'pointer',
+      width: isCarousel ? '300px' : '100%',
+      flexShrink: isCarousel ? 0 : 1,
+      height: isHorizontal ? 'auto' : '100%',
+      minWidth: 0,
+      boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+      fontFamily: 'Inter,sans-serif',
+      gap: isHorizontal ? '10px' : 0,
+      padding: isHorizontal ? '10px' : 0,
+      alignItems: isHorizontal ? 'center' : 'stretch',
+    };
+    const isHorizontalVar = isHorizontal;
+
+    const thumbStyle = isCompact ? { display: 'none' } : isHorizontal ? {
+      position: 'relative', width: '64px', height: '64px', borderRadius: '10px', flexShrink: 0, overflow: 'hidden',
+    } : {
+      position: 'relative', width: '100%', aspectRatio: '16/9', flexShrink: 0, overflow: 'hidden',
+    };
+    const compactThumbStyle = { position: 'relative', width: '44px', height: '44px', borderRadius: '10px', flexShrink: 0, overflow: 'hidden' };
+
+    const bodyStyle = isHorizontal ? {
+      display: 'flex', flex: 1, minWidth: 0, alignItems: 'center', justifyContent: 'space-between', gap: '12px',
+    } : {
+      display: 'flex', flexDirection: 'column', flex: 1, padding: '16px', gap: isCompact ? '10px' : '14px',
+    };
+
+    const showAttendees = p.showAttendees !== false;
+    const footerStyle = isHorizontal ? {
+      display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0,
+    } : {
+      display: 'flex', alignItems: 'center', justifyContent: showAttendees ? 'space-between' : 'flex-end', gap: '10px', marginTop: 'auto', paddingTop: '4px',
+    };
+    const avatarRowStyle = {
+      display: (isHorizontal || !showAttendees) ? 'none' : 'flex', alignItems: 'center', gap: '8px', minWidth: 0, flexShrink: 1,
+    };
+
+    const avatarBase = { width: '22px', height: '22px', borderRadius: '50%', border: '2px solid #fff', marginLeft: '-6px', display: 'flex', alignItems: 'center', justifyContent: 'center', font: '600 8px Inter,sans-serif', color: '#fff' };
+    const avatarStyle1 = { ...avatarBase, marginLeft: 0, background: '#FFA36F' };
+    const avatarStyle2 = { ...avatarBase, background: '#FF6840' };
+    const avatarStyle3 = { ...avatarBase, background: '#E6E2DC', color: sub, fontSize: '7px' };
+
+    const rsvpButtonStyle = {
+      display: 'flex', alignItems: 'center', gap: '6px',
+      font: '700 13px Inter,sans-serif', color: '#fff', background: purple, border: 'none',
+      borderRadius: '999px', padding: isHorizontal ? '7px 14px' : '9px 16px', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
+    };
+    const isDropdown = rsvpStyle === 'dropdown';
+    const isFull = rsvpStyle === 'full';
+    const fullBadgeStyle = {
+      display: 'flex', alignItems: 'center', font: '700 13px Inter,sans-serif', color: '#767676', background: '#EFEFEF',
+      border: 'none', borderRadius: '999px', padding: isHorizontal ? '7px 14px' : '9px 16px', whiteSpace: 'nowrap', flexShrink: 0, cursor: 'default',
+    };
+    const menuItems = [
+      { key: 'yes', label: 'Yes' },
+      { key: 'maybe', label: 'Maybe' },
+      { key: 'no', label: "Can't go" },
+    ].map(it => ({
+      ...it,
+      style: {
+        display: 'block', width: '100%', textAlign: 'left', font: rsvpState === it.key ? '700 13px Inter,sans-serif' : '600 13px Inter,sans-serif',
+        color: rsvpState === it.key ? purple : ink, background: rsvpState === it.key ? lavender : 'transparent',
+        border: 'none', borderRadius: '8px', padding: '8px 10px', cursor: 'pointer',
+      },
+      onClick: (e) => { e.stopPropagation(); this.setRsvp(it.key); if (p.onRsvpClick) p.onRsvpClick(it.key); },
+    }));
+    const menuWrapStyle = { position: 'relative', flexShrink: 0 };
+    const menuStyle = {
+      position: 'absolute', bottom: 'calc(100% + 8px)', right: 0, width: '150px', background: '#fff',
+      border: `1px solid ${border}`, borderRadius: '12px', padding: '6px', boxShadow: '0 8px 24px rgba(0,0,0,0.14)', zIndex: 10,
+    };
+    const rsvpOutlineButtonStyle = {
+      font: '600 12px Inter,sans-serif', color: purple, background: '#fff', border: `1px solid ${purple}`,
+      borderRadius: '999px', padding: '6px 12px', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
+    };
+
+    let statusLabel = 'RSVP', statusBg = lavender, statusColor = purple, statusBorder = 'transparent';
+    if (rsvpState === 'yes') { statusLabel = "You're in"; statusBg = purple; statusColor = '#fff'; }
+    else if (rsvpState === 'maybe') { statusLabel = 'Maybe'; statusBg = '#fff'; statusColor = purple; statusBorder = purple; }
+    else if (rsvpState === 'no') { statusLabel = "Can't go"; statusBg = '#F0F0F0'; statusColor = sub; }
+
+    const statusChipStyle = {
+      display: 'flex', alignItems: 'center', gap: '6px', font: '700 13px Inter,sans-serif', color: statusColor, background: statusBg,
+      border: `1px solid ${statusBorder}`, borderRadius: '999px', padding: isHorizontal ? '7px 14px' : '9px 16px', cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
+    };
+    const dualStatusBadgeStyle = {
+      font: '700 12px Inter,sans-serif', color: statusColor, background: statusBg, border: `1px solid ${statusBorder}`,
+      borderRadius: '999px', padding: '5px 12px', whiteSpace: 'nowrap',
+    };
+
+    const locMap = { 'in-person': 'In-person', online: 'Online', hybrid: 'Hybrid' };
+    const locationSummary = locationType === 'online' ? (p.onlineLabel || 'Join online') : (p.locationText || 'Location TBD');
+
+    const platformFromLabel = (label) => {
+      if (!label) return 'Online';
+      if (/zoom/i.test(label)) return 'Zoom';
+      if (/teams/i.test(label)) return 'Teams';
+      if (/meet/i.test(label)) return 'Google Meet';
+      return 'Online';
+    };
+    const placeShort = (text) => (text || 'Location TBD').split(',')[0].trim();
+    let locationShort;
+    if (locationType === 'online') locationShort = platformFromLabel(p.onlineLabel);
+    else if (locationType === 'hybrid') locationShort = `${placeShort(p.locationText)} + ${platformFromLabel(p.onlineLabel)}`;
+    else locationShort = placeShort(p.locationText);
+
+    return {
+      rootStyle, thumbStyle, bodyStyle, footerStyle, avatarRowStyle,
+      avatarStyle1, avatarStyle2, avatarStyle3,
+      title: p.title || 'Untitled event',
+      dateLabel: p.dateLabel || 'Date TBD',
+      locationTypeLabel: locMap[locationType] || 'In-person',
+      isOnline: locationType === 'online',
+      isInPerson: locationType === 'in-person',
+      isHybrid: locationType === 'hybrid',
+      showPin: locationType !== 'online',
+      locationSummary,
+      locationShort,
+      metaGap: isHorizontal ? '4px' : '8px',
+      titleClampStyle: isHorizontal
+        ? 'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:14px;line-height:1.25'
+        : 'display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden',
+      metaRowStyle: isHorizontal
+        ? { display: 'flex', flexDirection: 'column', gap: '3px' }
+        : { display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' },
+      showBadge: !isHorizontal,
+      showPhotoLabel: !isHorizontal && !isCompact && !p.thumbnail,
+      thumbnail: p.thumbnail,
+      onOpen: () => { if (p.onOpen) p.onOpen(); },
+      isHorizontal,
+      isCompact,
+      notCompact: !isCompact,
+      compactThumbStyle,
+      attendeeCount: (p.attendeeCount ?? 42) + (isDropdown && rsvpState === 'yes' ? 1 : 0),
+      attendeeOverflow: Math.max((p.attendeeCount ?? 42) + (isDropdown && rsvpState === 'yes' ? 1 : 0) - 2, 0),
+      showRsvpButton: rsvpState === 'none' && !isDropdown && !isFull,
+      showButtonSwapStatus: rsvpState !== 'none' && rsvpStyle === 'button-swap',
+      showDualStatusChip: rsvpState !== 'none' && rsvpStyle === 'status-chip',
+      showDropdown: isDropdown && !isFull,
+      showFullBadge: isFull,
+      fullBadgeStyle,
+      dropdownLabel: rsvpState === 'none' ? 'RSVP' : statusLabel,
+      dropdownButtonStyle: rsvpState === 'none' ? rsvpButtonStyle : statusChipStyle,
+      menuOpen: this.state.open,
+      menuItems, menuWrapStyle, menuStyle,
+      statusLabel, statusChipStyle, dualStatusBadgeStyle, rsvpOutlineButtonStyle,
+      rsvpIsYes: rsvpState === 'yes',
+      rsvpButtonStyle,
+      handleRsvpClick: (e) => { e.stopPropagation(); if (p.onRsvpClick) p.onRsvpClick(); },
+      handleDropdownToggle: (e) => { e.stopPropagation(); this.setState(s => ({ open: !s.open })); },
+      stopClick: (e) => e.stopPropagation(),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
