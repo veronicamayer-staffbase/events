@@ -64,7 +64,6 @@
 
     <div style="{{ footerStyle }}">
       <div style="{{ avatarRowStyle }}">
-        <div style="display:flex"><div style="{{ avatarStyle1 }}">JM</div><div style="{{ avatarStyle2 }}">KP</div><div style="{{ avatarStyle3 }}">+{{ attendeeOverflow }}</div></div>
         <span style="font:500 12px/1 Inter,sans-serif;color:#767676;white-space:nowrap">{{ attendeeCount }} going</span>
       </div>
 
@@ -186,11 +185,6 @@ class Component extends DCLogic {
       display: (isHorizontal || !showAttendees) ? 'none' : 'flex', alignItems: 'center', gap: '8px', minWidth: 0, flexShrink: 1,
     };
 
-    const avatarBase = { width: '22px', height: '22px', borderRadius: '50%', border: '2px solid #fff', marginLeft: '-6px', display: 'flex', alignItems: 'center', justifyContent: 'center', font: '600 8px Inter,sans-serif', color: '#fff' };
-    const avatarStyle1 = { ...avatarBase, marginLeft: 0, background: '#FFA36F' };
-    const avatarStyle2 = { ...avatarBase, background: '#FF6840' };
-    const avatarStyle3 = { ...avatarBase, background: '#E6E2DC', color: sub, fontSize: '7px' };
-
     const rsvpButtonStyle = {
       display: 'flex', alignItems: 'center', gap: '6px',
       font: '700 13px Inter,sans-serif', color: '#fff', background: purple, border: 'none',
@@ -257,7 +251,6 @@ class Component extends DCLogic {
 
     return {
       rootStyle, thumbStyle, bodyStyle, footerStyle, avatarRowStyle,
-      avatarStyle1, avatarStyle2, avatarStyle3,
       title: p.title || 'Untitled event',
       dateLabel: p.dateLabel || 'Date TBD',
       locationTypeLabel: locMap[locationType] || 'In-person',
@@ -283,7 +276,6 @@ class Component extends DCLogic {
       notCompact: !isCompact,
       compactThumbStyle,
       attendeeCount: (p.attendeeCount ?? 42) + (isDropdown && rsvpState === 'yes' ? 1 : 0),
-      attendeeOverflow: Math.max((p.attendeeCount ?? 42) + (isDropdown && rsvpState === 'yes' ? 1 : 0) - 2, 0),
       showRsvpButton: rsvpState === 'none' && !isDropdown && !isFull,
       showButtonSwapStatus: rsvpState !== 'none' && rsvpStyle === 'button-swap',
       showDualStatusChip: rsvpState !== 'none' && rsvpStyle === 'status-chip',

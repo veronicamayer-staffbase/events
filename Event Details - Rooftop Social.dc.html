@@ -87,19 +87,13 @@
         <div style="height:1px;background:#EDEAE5"></div>
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-            <div style="font:600 11px Inter,sans-serif;color:#767676;text-transform:uppercase;letter-spacing:.04em">Who's going</div>
+            <div style="font:600 11px Inter,sans-serif;color:#767676;text-transform:uppercase;letter-spacing:.04em">Participants</div>
             <span style="font:700 12px Inter,sans-serif;color:#C4471F">{{ attendeeCount }} / {{ capacity }}</span>
           </div>
           <div style="height:6px;border-radius:999px;background:#FFEDE6;overflow:hidden;margin-bottom:10px">
             <div style="{{ capacityBarStyle }}"></div>
           </div>
           <div style="display:flex;align-items:center;gap:10px">
-            <div style="display:flex">
-              <div style="width:28px;height:28px;border-radius:50%;border:2px solid #fff;margin-left:0;background:#FFA36F;display:flex;align-items:center;justify-content:center;font:600 10px Inter,sans-serif;color:#fff">JM</div>
-              <div style="width:28px;height:28px;border-radius:50%;border:2px solid #fff;margin-left:-8px;background:#FF6840;display:flex;align-items:center;justify-content:center;font:600 10px Inter,sans-serif;color:#fff">KP</div>
-              <div style="width:28px;height:28px;border-radius:50%;border:2px solid #fff;margin-left:-8px;background:#000000;display:flex;align-items:center;justify-content:center;font:600 10px Inter,sans-serif;color:#fff">RS</div>
-              <div style="width:28px;height:28px;border-radius:50%;border:2px solid #fff;margin-left:-8px;background:#FFEDE6;display:flex;align-items:center;justify-content:center;font:600 9px Inter,sans-serif;color:#FF6840">+{{ overflowCount }}</div>
-            </div>
             <span style="font:500 13px Inter,sans-serif;color:#4D4D4D">{{ spotsLeftLabel }}</span>
           </div>
         </div>
@@ -217,7 +211,6 @@ class Component extends DCLogic {
       },
       capacity: this.capacity,
       attendeeCount,
-      overflowCount: Math.max(attendeeCount - 3, 0),
       spotsLeftLabel: `${spotsLeft} spot${spotsLeft === 1 ? '' : 's'} left`,
       capacityBarStyle: {
         height: '100%', borderRadius: '999px', background: purple,
